@@ -21,4 +21,4 @@ grab your discord token and edit "insert_token_here"
 > token = "insert_token_here" 
 
 # Discord Support Group
- discord development support group https://discord.gg/xD2GmEjpyx
+ discord selfbot development support group https://discord.gg/xD2GmEjpyx
