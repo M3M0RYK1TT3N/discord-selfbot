@@ -14,6 +14,7 @@ make sure to install the latest version.
 # Warning ⚠️ 
 this project /selfbot is only for educational purposes only please use on your own risk
 
-
-
-
+# Installation
+make sure to edit line 5 
+put your discord token
+token = "insert_token_here"
