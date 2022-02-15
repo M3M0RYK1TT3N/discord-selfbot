@@ -11,6 +11,8 @@ https://www.python.org/downloads/
 make sure to install the latest version.
 
 
+# Warning ⚠️ 
+this project /selfbot is only for educational purposes only please use on your own risk
 
 
 
