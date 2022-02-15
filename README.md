@@ -2,7 +2,7 @@
 Very basic discord self bot
 still being actively developed
 
-#requirements
+# requirements
 python official website installation
 
 https://www.python.org/downloads/
