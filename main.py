@@ -1,5 +1,3 @@
-// discord selfbot support group https://discord.gg/xD2GmEjpyx
-    
 import discord
 from discord.ext import commands 
 
