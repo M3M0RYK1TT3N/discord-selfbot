@@ -13,6 +13,10 @@ token = ""
 
 Output = "[Output] | "
 
+@client.command()
+async def delete(ctx,amount=1):
+  await ctx.channel.purge(limit=amount+5)
+
 @client.event
 async def on_ready():
     print("Online!")
@@ -33,6 +37,18 @@ async def ban(ctx):
   print(member)
 
 @client.command()
+async def a(ctx):
+    await ctx.send("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
+
+@client.command(name='spam', help='Spams the input message for x number of times')
+async def spam(ctx, amount:int, *, message):
+    for i in range(amount): # Do the next thing amount times
+        await ctx.send(message) # Sends message where command was called
+
+
+
+@client.command()
 async def TEST(ctx):
     await ctx.send("Hello")
 
@@ -40,15 +56,15 @@ async def TEST(ctx):
 async def l(ctx):
     await ctx.send("Retard")
     
-    @client.command()
-    async def swat(ctx, member):
-        await ctx.send(f"{member} just commited fraud :^)")
+@client.command()
+async def swat(ctx, member):
+    await ctx.send(f"{member} just commited fraud :^)")
         
-        @client.command()
-        async def embed(ctx, title, *, description):
-            await ctx.message.delete()
-            embed=discord.Embed(title=title, description=description)
-            await ctx.send(embed=embed)
+@client.command()
+async def embed(ctx, title, *, description):
+  await ctx.message.delete()
+  embed=discord.Embed(title=title, description=description)
+  await ctx.send(embed=embed)
         
 @client.command()
 async def acsii(ctx, *, args):
