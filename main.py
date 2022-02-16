@@ -25,7 +25,7 @@ async def l(ctx):
         @client.command()
         async def embed(ctx, title, *, description):
             await ctx.message.delete()
-            embed=discord.Embed.(title=title, description=description)
+            embed=discord.Embed(title=title, description=description)
             await ctx.send(embed=embed)
         
 @client.command()
