@@ -57,6 +57,7 @@ elif house == "bravery":
        pay load = {'house_id': 3}
     
     
+    
               try:
                   request.posT('https://discordapp.com/api/v6/hypersquad/online, headers=headers, json=payload')
                   print(f"(Output)Successfully Set your hypersquad to (house)")
