@@ -1,10 +1,15 @@
 import discord
+from discord.ext import commands
+from discord import ext
+from discord.ext import tasks
+import ctx
+from discord import Permissions, channel, message, guild
+import random
 import house
 
-from discord.ext import commands 
 
 client = commands.Bot (command_prefix=".", self_bot=True, help_command=None)
-token = "insert_token_here"
+token = ""
 
 Output = "[Output] | "
 
@@ -15,7 +20,17 @@ async def on_ready():
     print("We are currently under development")
     print("For more information please visit our github!")
     print("nana-bot selfbot version 1.0")
-        
+
+
+@commands.has_permissions(administrator=True)
+async def function(ctx, prefix):
+  pass
+
+@client.command(pass_context= True)
+async def ban(ctx):
+  server = ctx.message.server
+  member = ctx.message.author
+  print(member)
 
 @client.command()
 async def TEST(ctx):
@@ -62,15 +77,18 @@ elif house == "brilliance":
        payload = {'house_id': 2}
 elif house == "balance":
        payload = {'house_id': 3}
-        
+
+
 try:
     request.post('https://discordapp.com/api/v6/hypersquad/online, headers=headers, json=payload')
     print(f"(Output)Successfully Set your hypersquad to (house)")
 except:
-    print(f"(Output)Failed to set your hypersquad house.")        
+    print(f"(Output)Failed to set your hypersquad house.")       
     
     
     
               
+              
+                  
            
 client.run(token, bot=False)
