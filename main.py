@@ -49,11 +49,11 @@ async def hypersquad(ctx, house):
         
     }
    
-elif house == "bravery":
+if house == "bravery":
        payload = {'house_id': 1}
-       elif house == "brilliance":
+         elif house == "brilliance":
        payload = {'house_id': 2}
-       elif house == "balance":
+         elif house == "balance":
        pay load = {'house_id': 3}
     
     
