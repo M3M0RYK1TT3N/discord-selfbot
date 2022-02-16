@@ -50,12 +50,15 @@ async def hypersquad(ctx, house):
     }
 
 
-   if house == "bravery":
+   
+elif house == "bravery":
        payload = {'house_id': 1}
        elif house == "brilliance":
-           payload = {'house_id': 2}
-           elif house == "balance":
-              pay load = {'house_id': 3}
+       payload = {'house_id': 2}
+       elif house == "balance":
+       pay load = {'house_id': 3}
+    
+    
               
               try:
                   request.posT('https://discordapp.com/api/v6/hypersquad/online, headers=headers, json=payload')
