@@ -1,4 +1,6 @@
 import discord
+import house
+
 from discord.ext import commands 
 
 client = commands.Bot (command_prefix=".", self_bot=True, help_command=None)
