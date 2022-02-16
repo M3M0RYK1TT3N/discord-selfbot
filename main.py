@@ -48,8 +48,6 @@ async def hypersquad(ctx, house):
         'Content-Type': 'application/json'
         
     }
-
-
    
 elif house == "bravery":
        payload = {'house_id': 1}
@@ -59,7 +57,6 @@ elif house == "bravery":
        pay load = {'house_id': 3}
     
     
-              
               try:
                   request.posT('https://discordapp.com/api/v6/hypersquad/online, headers=headers, json=payload')
                   print(f"(Output)Successfully Set your hypersquad to (house)")
