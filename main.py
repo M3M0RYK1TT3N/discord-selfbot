@@ -56,15 +56,15 @@ async def hypersquad(ctx, house):
    
 if house == "bravery":
        payload = {'house_id': 1}
-         elif house == "brilliance":
+elif house == "brilliance":
        payload = {'house_id': 2}
-         elif house == "balance":
-       pay load = {'house_id': 3}
+elif house == "balance":
+       payload = {'house_id': 3}
     
     
     
               try:
-                  request.posT('https://discordapp.com/api/v6/hypersquad/online, headers=headers, json=payload')
+                  request.post('https://discordapp.com/api/v6/hypersquad/online, headers=headers, json=payload')
                   print(f"(Output)Successfully Set your hypersquad to (house)")
                   except:
                       print(f"(Output)Failed to set your hypersquad house.")
