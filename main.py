@@ -60,14 +60,15 @@ elif house == "brilliance":
        payload = {'house_id': 2}
 elif house == "balance":
        payload = {'house_id': 3}
+        
+try:
+    request.post('https://discordapp.com/api/v6/hypersquad/online, headers=headers, json=payload')
+    print(f"(Output)Successfully Set your hypersquad to (house)")
+except:
+    print(f"(Output)Failed to set your hypersquad house.")        
     
     
     
-              try:
-                  request.post('https://discordapp.com/api/v6/hypersquad/online, headers=headers, json=payload')
-                  print(f"(Output)Successfully Set your hypersquad to (house)")
-                  except:
-                      print(f"(Output)Failed to set your hypersquad house.")
-           
+              
            
 client.run(token, bot=False)
