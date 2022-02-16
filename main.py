@@ -9,6 +9,11 @@ Output = "[Output] | "
 @client.event
 async def on_ready():
     print("Online!")
+    print("Welcome to nana-bot discord-selfbot")
+    print("We are currently under development")
+    print("For more information please visit our github!")
+    print("nana-bot selfbot version 1.0")
+        
 
 @client.command()
 async def TEST(ctx):
