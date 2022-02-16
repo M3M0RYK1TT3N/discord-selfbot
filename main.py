@@ -12,4 +12,12 @@ async def on_ready():
 async def TEST(ctx):
     await ctx.send("Hello")
 
+@client.command()
+async def l(ctx):
+    await ctx.send("Retard")
+    
+    @client.command()
+    async def swat(ctx, member):
+        await ctx.send(f"{member} just commited fraud :^)")
+
 client.run(token, bot=False)
