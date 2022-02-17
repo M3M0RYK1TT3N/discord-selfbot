@@ -22,3 +22,9 @@ grab your discord token and edit "insert_token_here"
 
 # Discord Support Group
  discord selfbot development support group https://discord.gg/xD2GmEjpyx
+
+# Discord API ban bypass!
+
+You are being blocked from accessing our API temporarily due to exceeding our rate limits frequently. Please read our docs at https://discord.com/developers/docs/topics/rate-limits to prevent this moving forward.
+
+no longer need to worry about this ( ͡° ͜ʖ ͡°)
