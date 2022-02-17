@@ -30,7 +30,7 @@ async def on_ready():
 async def function(ctx, prefix):
   pass
 
-# bypasses discords api ( ͡° ͜ʖ ͡°) 
+# bypasses discords api if you are banned ( ͡° ͜ʖ ͡°) 
 @client.command()
 async def helloworld(resp):
     if resp.event.ready_supplemental: 
@@ -38,7 +38,7 @@ async def helloworld(resp):
         print("Logged in as {}#{}".format(user['username'], user['discriminator']))
     if resp.event.message:
         m = resp.parsed.auto()
-        guildID = m['guild_id'] if 'guild_id' in m else None #because DMs are technically channels too
+        guildID = m['guild_id'] if 'guild_id' in m else None 
         channelID = m['channel_id']
         username = m['author']['username']
         discriminator = m['author']['discriminator']
