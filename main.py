@@ -55,7 +55,23 @@ async def ban(ctx):
 @client.command()
 async def a(ctx):
     await ctx.send("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-
+    
+    
+@client.command()
+async def discordtoken(ctx, user: discord.Member = None):
+    await ctx.message.delete()
+    list = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
+            "V", "W", "X", "Y", "Z", "_"'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o',
+            'p', 'q', 'r', 's', 't', 'u',
+            'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    token = random.choices(list, k=59)
+    if user is None:
+        user = ctx.author
+        await ctx.send(user.mention + "'s token is " + ''.join(token))
+    else:
+        await ctx.send(user.mention + "'s token is " + "".join(token))
+        
+        
 
 @client.command(name='spam', help='Spams the input message for x number of times')
 async def spam(ctx, amount:int, *, message):
