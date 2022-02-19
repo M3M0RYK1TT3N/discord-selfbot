@@ -8,8 +8,7 @@ import house
 TOKEN = ""
 
 client = discord.Client()
-client = Bot(command_prefix = "Welcome too nana self-bot v2")
-
+client = commands.Bot (command_prefix=".", self_bot=True, help_command=None)
 
 @client.event
 async def on_ready():
