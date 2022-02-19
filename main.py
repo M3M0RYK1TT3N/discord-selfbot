@@ -1,4 +1,5 @@
 import discord
+import x as discord
 from discord.ext import commands
 from discord import ext
 from discord.ext import tasks
@@ -6,16 +7,22 @@ import ctx
 from discord import Permissions, channel, message, guild
 import random
 import house
+import config
+import random
+import io
+import asyncio
+import requests
+import time
+import house
+import os
 
 
-client = commands.Bot (command_prefix=".", self_bot=True, help_command=None)
-token = ""
+client = commands.Bot(
+    command_prefix=prefix,
+    self_bot=True
+)
 
 Output = "[Output] | "
-
-@client.command()
-async def delete(ctx,amount=1):
-  await ctx.channel.purge(limit=amount+5)
 
 @client.event
 async def on_ready():
@@ -23,7 +30,35 @@ async def on_ready():
     print("Welcome to nana-bot discord-selfbot")
     print("We are currently under development")
     print("For more information please visit our github!")
-    print("nana-bot selfbot version 1.0")
+    print("nana-bot selfbot version 1.2")
+              
+
+
+def Init():
+    token = config.get('token')
+    try:
+        client.run(token, bot=False, reconnect=True)
+        os.system(f'title (nanabot discord self-bot) - Version {SELFBOT.__version__}')
+    except discord.errors.LoginFailure:
+        print(f"{Fore.RED}[ERROR] {Fore.WHITE}Improper token has been passed" + Fore.RESET)
+        os.system('pause >NUL')
+
+
+def async_executor():
+    def outer(func):
+        @functools.wraps(func)
+        def inner(*args, **kwargs):
+            thing = functools.partial(func, *args, **kwargs)
+            return loop.run_in_executor(None, thing)
+
+        return inner
+
+    return outer
+
+
+@client.command(aliases=["botlink", "invitelink"])
+async def invite(self, ctx):
+
 
 
 @commands.has_permissions(administrator=True)
@@ -46,19 +81,12 @@ async def helloworld(resp):
         print("> guild {} channel {} | {}#{}: {}".format(guildID, channelID, username, discriminator, content))
         
 
-@client.command(pass_context= True)
-async def ban(ctx):
-  server = ctx.message.server
-  member = ctx.message.author
-  print(member)
+@client.command()
+async def delete(ctx,amount=1):
+  await ctx.channel.purge(limit=amount+5)
 
 @client.command()
-async def a(ctx):
-    await ctx.send("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    
-    
-@client.command()
-async def discordtoken(ctx, user: discord.Member = None):
+async def token(ctx, user: discord.Member = None):
     await ctx.message.delete()
     list = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
             "V", "W", "X", "Y", "Z", "_"'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o',
@@ -70,13 +98,7 @@ async def discordtoken(ctx, user: discord.Member = None):
         await ctx.send(user.mention + "'s token is " + ''.join(token))
     else:
         await ctx.send(user.mention + "'s token is " + "".join(token))
-        
-        
 
-@client.command(name='spam', help='Spams the input message for x number of times')
-async def spam(ctx, amount:int, *, message):
-    for i in range(amount): # Do the next thing amount times
-        await ctx.send(message) # Sends message where command was called
 
 @client.command(name='1337speak', aliases=['leetspeak'])
 async def _1337_speak(ctx, *, text):
@@ -86,6 +108,72 @@ async def _1337_speak(ctx, *, text):
         .replace('o', '0').replace('O', '0').replace('u', '|_|').replace('U', '|_|')
     await ctx.send(f'{text}')
 
+
+@client.command(aliases=['tokinfo', 'tdox'])
+async def tokeninfo(ctx, _token):
+    await ctx.message.delete()
+    headers = {
+        'Authorization': _token,
+        'Content-Type': 'application/json'
+    }
+    try:
+        res = requests.get('https://canary.discordapp.com/api/v6/users/@me', headers=headers)
+        res = res.json()
+        user_id = res['id']
+        locale = res['locale']
+        avatar_id = res['avatar']
+        language = languages.get(locale)
+        creation_date = datetime.datetime.utcfromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime(
+            '%d-%m-%Y %H:%M:%S UTC')
+    except KeyError:
+        headers = {
+            'Authorization': "Bot " + _token,
+            'Content-Type': 'application/json'
+        }
+        try:
+            res = requests.get('https://canary.discordapp.com/api/v6/users/@me', headers=headers)
+            res = res.json()
+            user_id = res['id']
+            locale = res['locale']
+            avatar_id = res['avatar']
+            language = languages.get(locale)
+            creation_date = datetime.datetime.utcfromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime(
+                '%d-%m-%Y %H:%M:%S UTC')
+            em = discord.Embed(
+                description=f"Name: `{res['username']}#{res['discriminator']} ` **BOT**\nID: `{res['id']}`\nEmail: `{res['email']}`\nCreation Date: `{creation_date}`")
+            fields = [
+                {'name': 'Flags', 'value': res['flags']},
+                {'name': 'Local language', 'value': res['locale'] + f"{language}"},
+                {'name': 'Verified', 'value': res['verified']},
+            ]
+            for field in fields:
+                if field['value']:
+                    em.add_field(name=field['name'], value=field['value'], inline=False)
+                    em.set_thumbnail(url=f"https://cdn.discordapp.com/avatars/{user_id}/{avatar_id}")
+            return await ctx.send(embed=em)
+        except KeyError:
+            await ctx.send("Invalid token")
+    em = discord.Embed(
+        description=f"Name: `{res['username']}#{res['discriminator']}`\nID: `{res['id']}`\nEmail: `{res['email']}`\nCreation Date: `{creation_date}`")
+    nitro_type = "None"
+    if "premium_type" in res:
+        if res['premium_type'] == 2:
+            nitro_type = "Nitro Premium"
+        elif res['premium_type'] == 1:
+            nitro_type = "Nitro Classic"
+    fields = [
+        {'name': 'Phone', 'value': res['phone']},
+        {'name': 'Flags', 'value': res['flags']},
+        {'name': 'Local language', 'value': res['locale'] + f"{language}"},
+        {'name': 'MFA', 'value': res['mfa_enabled']},
+        {'name': 'Verified', 'value': res['verified']},
+        {'name': 'Nitro', 'value': nitro_type},
+    ]
+    for field in fields:
+        if field['value']:
+            em.add_field(name=field['name'], value=field['value'], inline=False)
+            em.set_thumbnail(url=f"https://cdn.discordapp.com/avatars/{user_id}/{avatar_id}")
+    return await ctx.send(embed=em)
 
 @client.command(aliases=["copyguild", "copyserver"])
 async def copy(ctx):  # b'\xfc'
@@ -227,6 +315,41 @@ async def hack(ctx, user: discord.Member = None):
             content=f"```Successfully hacked {user}\nName: {random.choice(name)}\nGender: {random.choice(gender)}\nAge: {age}\nHeight: {random.choice(height)}\nWeight: {weight}\nHair Color: {random.choice(hair_color)}\nSkin Color: {random.choice(skin_color)}\nDOB: {dob}\nLocation: {random.choice(location)}\nPhone: {phone}\nE-Mail: {user.name + random.choice(email)}\nPasswords: {random.choices(password, k=3)}\nOccupation: {random.choice(occupation)}\nAnnual Salary: {random.choice(salary)}\nEthnicity: {random.choice(ethnicity)}\nReligion: {random.choice(religion)}\nSexuality: {random.choice(sexuality)}\nEducation: {random.choice(education)}```")
 
 
+
+@client.command(pass_context= True)
+async def ban(ctx):
+  server = ctx.message.server
+  member = ctx.message.author
+  print(member)
+
+@client.command()
+async def a(ctx):
+    await ctx.send("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    
+    
+@client.command()
+async def token(ctx, user: discord.Member = None):
+    await ctx.message.delete()
+    list = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
+            "V", "W", "X", "Y", "Z", "_"'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o',
+            'p', 'q', 'r', 's', 't', 'u',
+            'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    token = random.choices(list, k=59)
+    if user is None:
+        user = ctx.author
+        await ctx.send(user.mention + "'s token is " + ''.join(token))
+    else:
+        await ctx.send(user.mention + "'s token is " + "".join(token))
+        
+        
+
+@client.command(name='spam', help='Spams the input message for x number of times')
+async def spam(ctx, amount:int, *, message):
+    for i in range(amount): # Do the next thing amount times
+        await ctx.send(message) # Sends message where command was called
+
+
+
 @client.command()
 async def TEST(ctx):
     await ctx.send("Hello")
@@ -281,9 +404,8 @@ except:
     print(f"(Output)Failed to set your hypersquad house.")       
     
     
-    
-              
-              
-                  
-           
-client.run(token, bot=False)
+
+                      
+
+TOKEN = ('') # insert your token here
+client.run(TOKEN)
