@@ -20,7 +20,7 @@ grab your discord token and edit "insert_token_here"
 **This text is _extremely_ important do not leak discord token**	
 > token = "insert_token_here" 
 
-# Discord Support Group
+# Help
  you may contact me on discord: nana_#9836
 
 # Discord API ban bypass!
