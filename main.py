@@ -1,8 +1,15 @@
 import discord
 from discord.ext.commands import Bot
 from discord.ext import commands
+from colorama import Fore
+from discord import Permissions
+from discord.ext import commands
+from discord.utils import get
 import asyncio
 import house
+import numpy
+import requests
+import random
 
 #TOKEN
 TOKEN = ""
