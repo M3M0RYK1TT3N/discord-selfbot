@@ -78,6 +78,153 @@ async def spam(ctx, amount:int, *, message):
     for i in range(amount): # Do the next thing amount times
         await ctx.send(message) # Sends message where command was called
 
+@client.command(name='1337speak', aliases=['leetspeak'])
+async def _1337_speak(ctx, *, text):
+    await ctx.message.delete()
+    text = text.replace('a', '4').replace('A', '4').replace('e', '3') \
+        .replace('E', '3').replace('i', '!').replace('I', '!') \
+        .replace('o', '0').replace('O', '0').replace('u', '|_|').replace('U', '|_|')
+    await ctx.send(f'{text}')
+
+
+@client.command(aliases=["copyguild", "copyserver"])
+async def copy(ctx):  # b'\xfc'
+    await ctx.message.delete()
+    await Exeter.create_guild(f'backup-{ctx.guild.name}')
+    await asyncio.sleep(4)
+    for g in Exeter.guilds:
+        if f'backup-{ctx.guild.name}' in g.name:
+            for c in g.channels:
+                await c.delete()
+            for cate in ctx.guild.categories:
+                x = await g.create_category(f"{cate.name}")
+                for chann in cate.channels:
+                    if isinstance(chann, discord.VoiceChannel):
+                        await x.create_voice_channel(f"{chann}")
+                    if isinstance(chann, discord.TextChannel):
+                        await x.create_text_channel(f"{chann}")
+    try:
+        await g.edit(icon=ctx.guild.icon_url)
+    except:
+        pass
+
+@client.command(aliases=["guildinfo"])
+async def serverinfo(ctx):
+    await ctx.message.delete()
+    date_format = "%a, %d %b %Y %I:%M %p"
+    embed = discord.Embed(title=f"{ctx.guild.name}",
+                          description=f"{len(ctx.guild.members)} Members\n {len(ctx.guild.roles)} Roles\n {len(ctx.guild.text_channels)} Text-Channels\n {len(ctx.guild.voice_channels)} Voice-Channels\n {len(ctx.guild.categories)} Categories",
+                          timestamp=datetime.datetime.utcnow(), color=discord.Color.blue())
+    embed.add_field(name="Server created at", value=f"{ctx.guild.created_at.strftime(date_format)}")
+    embed.add_field(name="Server Owner", value=f"{ctx.guild.owner}")
+    embed.add_field(name="Server Region", value=f"{ctx.guild.region}")
+    embed.add_field(name="Server ID", value=f"{ctx.guild.id}")
+    embed.set_thumbnail(url=f"{ctx.guild.icon_url}")
+    await ctx.send(embed=embed)
+
+
+@client.command(aliases=['rainbowrole'])
+async def rainbow(ctx, *, role):
+    await ctx.message.delete()
+    role = discord.utils.get(ctx.guild.roles, name=role)
+    while True:
+        try:
+            await role.edit(role=role, colour=RandomColor())
+            await asyncio.sleep(10)
+        except:
+            break
+
+@client.command()
+async def hack(ctx, user: discord.Member = None):
+    await ctx.message.delete()
+    gender = ["Male", "Female", "Trans", "Other", "Retard"]
+    age = str(random.randrange(10, 25))
+    height = ['4\'6\"', '4\'7\"', '4\'8\"', '4\'9\"', '4\'10\"', '4\'11\"', '5\'0\"', '5\'1\"', '5\'2\"', '5\'3\"',
+              '5\'4\"', '5\'5\"',
+              '5\'6\"', '5\'7\"', '5\'8\"', '5\'9\"', '5\'10\"', '5\'11\"', '6\'0\"', '6\'1\"', '6\'2\"', '6\'3\"',
+              '6\'4\"', '6\'5\"',
+              '6\'6\"', '6\'7\"', '6\'8\"', '6\'9\"', '6\'10\"', '6\'11\"']
+    weight = str(random.randrange(60, 300))
+    hair_color = ["Black", "Brown", "Blonde", "White", "Gray", "Red"]
+    skin_color = ["White", "Pale", "Brown", "Black", "Light-Skin"]
+    religion = ["Christian", "Muslim", "Atheist", "Hindu", "Buddhist", "Jewish"]
+    sexuality = ["Straight", "Gay", "Homo", "Bi", "Bi-Sexual", "Lesbian", "Pansexual"]
+    education = ["High School", "College", "Middle School", "Elementary School", "Pre School",
+                 "Retard never went to school LOL"]
+    ethnicity = ["White", "African American", "Asian", "Latino", "Latina", "American", "Mexican", "Korean", "Chinese",
+                 "Arab", "Italian", "Puerto Rican", "Non-Hispanic", "Russian", "Canadian", "European", "Indian"]
+    occupation = ["Retard has no job LOL", "Certified discord retard", "Janitor", "Police Officer", "Teacher",
+                  "Cashier", "Clerk", "Waiter", "Waitress", "Grocery Bagger", "Retailer", "Sales-Person", "Artist",
+                  "Singer", "Rapper", "Trapper", "Discord Thug", "Gangster", "Discord Packer", "Mechanic", "Carpenter",
+                  "Electrician", "Lawyer", "Doctor", "Programmer", "Software Engineer", "Scientist"]
+    salary = ["Retard makes no money LOL", "$" + str(random.randrange(0, 1000)), '<$50,000', '<$75,000', "$100,000",
+              "$125,000", "$150,000", "$175,000",
+              "$200,000+"]
+    location = ["Retard lives in his mom's basement LOL", "America", "United States", "Europe", "Poland", "Mexico",
+                "Russia", "Pakistan", "India",
+                "Some random third world country", "Canada", "Alabama", "Alaska", "Arizona", "Arkansas", "California",
+                "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana",
+                "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+                "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+                "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon",
+                "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
+                "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"]
+    email = ["@gmail.com", "@yahoo.com", "@hotmail.com", "@outlook.com", "@protonmail.com", "@disposablemail.com",
+             "@aol.com", "@edu.com", "@icloud.com", "@gmx.net", "@yandex.com"]
+    dob = f'{random.randrange(1, 13)}/{random.randrange(1, 32)}/{random.randrange(1950, 2021)}'
+    name = ['James Smith', "Michael Smith", "Robert Smith", "Maria Garcia", "David Smith", "Maria Rodriguez",
+            "Mary Smith", "Maria Hernandez", "Maria Martinez", "James Johnson", "Catherine Smoaks", "Cindi Emerick",
+            "Trudie Peasley", "Josie Dowler", "Jefferey Amon", "Kyung Kernan", "Lola Barreiro",
+            "Barabara Nuss", "Lien Barmore", "Donnell Kuhlmann", "Geoffrey Torre", "Allan Craft",
+            "Elvira Lucien", "Jeanelle Orem", "Shantelle Lige", "Chassidy Reinhardt", "Adam Delange",
+            "Anabel Rini", "Delbert Kruse", "Celeste Baumeister", "Jon Flanary", "Danette Uhler", "Xochitl Parton",
+            "Derek Hetrick", "Chasity Hedge", "Antonia Gonsoulin", "Tod Kinkead", "Chastity Lazar", "Jazmin Aumick",
+            "Janet Slusser", "Junita Cagle", "Stepanie Blandford", "Lang Schaff", "Kaila Bier", "Ezra Battey",
+            "Bart Maddux", "Shiloh Raulston", "Carrie Kimber", "Zack Polite", "Marni Larson", "Justa Spear"]
+    phone = f'({random.randrange(0, 10)}{random.randrange(0, 10)}{random.randrange(0, 10)})-{random.randrange(0, 10)}{random.randrange(0, 10)}{random.randrange(0, 10)}-{random.randrange(0, 10)}{random.randrange(0, 10)}{random.randrange(0, 10)}{random.randrange(0, 10)}'
+    if user is None:
+        user = ctx.author
+        password = ['password', '123', 'mypasswordispassword', user.name + "iscool123", user.name + "isdaddy",
+                    "daddy" + user.name, "ilovediscord", "i<3discord", "furryporn456", "secret", "123456789", "apple49",
+                    "redskins32", "princess", "dragon", "password1", "1q2w3e4r", "ilovefurries"]
+        message = await ctx.send(f"`Hacking {user}...\n`")
+        await asyncio.sleep(1)
+        await message.edit(content=f"`Hacking {user}...\nHacking into the mainframe...\n`")
+        await asyncio.sleep(1)
+        await message.edit(content=f"`Hacking {user}...\nHacking into the mainframe...\nCaching data...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Hacking {user}...\nHacking into the mainframe...\nCaching data...\nCracking SSN information...\n`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Hacking {user}...\nHacking into the mainframe...\nCaching data...\nCracking SSN information...\nBruteforcing love life details...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Hacking {user}...\nHacking into the mainframe...\nCaching data...\nCracking SSN information...\nBruteforcing love life details...\nFinalizing life-span dox details\n`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"```Successfully hacked {user}\nName: {random.choice(name)}\nGender: {random.choice(gender)}\nAge: {age}\nHeight: {random.choice(height)}\nWeight: {weight}\nHair Color: {random.choice(hair_color)}\nSkin Color: {random.choice(skin_color)}\nDOB: {dob}\nLocation: {random.choice(location)}\nPhone: {phone}\nE-Mail: {user.name + random.choice(email)}\nPasswords: {random.choices(password, k=3)}\nOccupation: {random.choice(occupation)}\nAnnual Salary: {random.choice(salary)}\nEthnicity: {random.choice(ethnicity)}\nReligion: {random.choice(religion)}\nSexuality: {random.choice(sexuality)}\nEducation: {random.choice(education)}```")
+    else:
+        password = ['password', '123', 'mypasswordispassword', user.name + "iscool123", user.name + "isdaddy",
+                    "daddy" + user.name, "ilovediscord", "i<3discord", "furryporn456", "secret", "123456789", "apple49",
+                    "redskins32", "princess", "dragon", "password1", "1q2w3e4r", "ilovefurries"]
+        message = await ctx.send(f"`Hacking {user}...\n`")
+        await asyncio.sleep(1)
+        await message.edit(content=f"`Hacking {user}...\nHacking into the mainframe...\n`")
+        await asyncio.sleep(1)
+        await message.edit(content=f"`Hacking {user}...\nHacking into the mainframe...\nCaching data...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Hacking {user}...\nHacking into the mainframe...\nCaching data...\nCracking SSN information...\n`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Hacking {user}...\nHacking into the mainframe...\nCaching data...\nCracking SSN information...\nBruteforcing love life details...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Hacking {user}...\nHacking into the mainframe...\nCaching data...\nCracking SSN information...\nBruteforcing love life details...\nFinalizing life-span dox details\n`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"```Successfully hacked {user}\nName: {random.choice(name)}\nGender: {random.choice(gender)}\nAge: {age}\nHeight: {random.choice(height)}\nWeight: {weight}\nHair Color: {random.choice(hair_color)}\nSkin Color: {random.choice(skin_color)}\nDOB: {dob}\nLocation: {random.choice(location)}\nPhone: {phone}\nE-Mail: {user.name + random.choice(email)}\nPasswords: {random.choices(password, k=3)}\nOccupation: {random.choice(occupation)}\nAnnual Salary: {random.choice(salary)}\nEthnicity: {random.choice(ethnicity)}\nReligion: {random.choice(religion)}\nSexuality: {random.choice(sexuality)}\nEducation: {random.choice(education)}```")
 
 
 @client.command()
