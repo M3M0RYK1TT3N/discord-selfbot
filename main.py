@@ -1,28 +1,15 @@
 import discord
-import x as discord
+from discord.ext.commands import Bot
 from discord.ext import commands
-from discord import ext
-from discord.ext import tasks
-import ctx
-from discord import Permissions, channel, message, guild
-import random
-import house
-import config
-import random
-import io
 import asyncio
-import requests
-import time
 import house
-import os
 
+#TOKEN
+TOKEN = ""
 
-client = commands.Bot(
-    command_prefix=prefix,
-    self_bot=True
-)
+client = discord.Client()
+client = Bot(command_prefix = "Welcome too nana self-bot v2")
 
-Output = "[Output] | "
 
 @client.event
 async def on_ready():
@@ -30,40 +17,9 @@ async def on_ready():
     print("Welcome to nana-bot discord-selfbot")
     print("We are currently under development")
     print("For more information please visit our github!")
-    print("nana-bot selfbot version 1.2")
+    print("nana-bot selfbot version v2")
               
 
-
-def Init():
-    token = config.get('token')
-    try:
-        client.run(token, bot=False, reconnect=True)
-        os.system(f'title (nanabot discord self-bot) - Version {SELFBOT.__version__}')
-    except discord.errors.LoginFailure:
-        print(f"{Fore.RED}[ERROR] {Fore.WHITE}Improper token has been passed" + Fore.RESET)
-        os.system('pause >NUL')
-
-
-def async_executor():
-    def outer(func):
-        @functools.wraps(func)
-        def inner(*args, **kwargs):
-            thing = functools.partial(func, *args, **kwargs)
-            return loop.run_in_executor(None, thing)
-
-        return inner
-
-    return outer
-
-
-@client.command(aliases=["botlink", "invitelink"])
-async def invite(self, ctx):
-
-
-
-@commands.has_permissions(administrator=True)
-async def function(ctx, prefix):
-  pass
 
 # bypasses discords api if you are banned ( ͡° ͜ʖ ͡°) 
 @client.command()
@@ -328,7 +284,7 @@ async def a(ctx):
     
     
 @client.command()
-async def token(ctx, user: discord.Member = None):
+async def discordtoken(ctx, user: discord.Member = None):
     await ctx.message.delete()
     list = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
             "V", "W", "X", "Y", "Z", "_"'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o',
@@ -508,9 +464,6 @@ try:
 except:
     print(f"(Output)Failed to set your hypersquad house.")       
     
-    
 
-                      
 
-TOKEN = ('') # insert your token here
-client.run(TOKEN)
+client.run(TOKEN, bot = False)
