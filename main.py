@@ -378,6 +378,111 @@ async def acsii(ctx, *, args):
 async def request(ctx):
     r = request.get('https://google.com')
     print(r.status_code)
+
+    
+@client.command(aliases=["9/11", "911", "terrorist", "best-day"])
+async def nine_eleven(ctx):
+    await ctx.message.delete()
+    invis = ""  # char(173)
+    message = await ctx.send(f'''
+{invis}:man_wearing_turban::airplane:    :office:           
+''')
+    await asyncio.sleep(0.5)
+    await message.edit(content=f'''
+{invis} :man_wearing_turban::airplane:   :office:           
+''')
+    await asyncio.sleep(0.5)
+    await message.edit(content=f'''
+{invis}  :man_wearing_turban::airplane:  :office:           
+''')
+    await asyncio.sleep(0.5)
+    await message.edit(content=f'''
+{invis}   :man_wearing_turban::airplane: :office:           
+''')
+    await asyncio.sleep(0.5)
+    await message.edit(content=f'''
+{invis}    :man_wearing_turban::airplane::office:           
+''')
+    await asyncio.sleep(0.5)
+    await message.edit(content='''
+        :boom::boom::boom:    
+        ''')
+
+@client.command(aliases=["jerkoff", "ejaculate", "jerk"])
+async def cum(ctx):
+    await ctx.message.delete()
+    message = await ctx.send('''
+            :ok_hand:            :smile:
+   :eggplant: :zzz: :necktie: :eggplant: 
+                   :oil:     :nose:
+                 :zap: 8=:punch:=D 
+             :trumpet:      :eggplant:''')
+    await asyncio.sleep(0.5)
+    await message.edit(content='''
+                      :ok_hand:            :smiley:
+   :eggplant: :zzz: :necktie: :eggplant: 
+                   :oil:     :nose:
+                 :zap: 8==:punch:D 
+             :trumpet:      :eggplant:  
+     ''')
+    await asyncio.sleep(0.5)
+    await message.edit(content='''
+                      :ok_hand:            :grimacing:
+   :eggplant: :zzz: :necktie: :eggplant: 
+                   :oil:     :nose:
+                 :zap: 8=:punch:=D 
+             :trumpet:      :eggplant:  
+     ''')
+    await asyncio.sleep(0.5)
+    await message.edit(content='''
+                      :ok_hand:            :persevere:
+   :eggplant: :zzz: :necktie: :eggplant: 
+                   :oil:     :nose:
+                 :zap: 8==:punch:D 
+             :trumpet:      :eggplant:   
+     ''')
+    await asyncio.sleep(0.5)
+    await message.edit(content='''
+                      :ok_hand:            :confounded:
+   :eggplant: :zzz: :necktie: :eggplant: 
+                   :oil:     :nose:
+                 :zap: 8=:punch:=D 
+             :trumpet:      :eggplant: 
+     ''')
+    await asyncio.sleep(0.5)
+    await message.edit(content='''
+                       :ok_hand:            :tired_face:
+   :eggplant: :zzz: :necktie: :eggplant: 
+                   :oil:     :nose:
+                 :zap: 8==:punch:D 
+             :trumpet:      :eggplant:    
+             ''')
+    await asyncio.sleep(0.5)
+    await message.edit(contnet='''
+                       :ok_hand:            :weary:
+   :eggplant: :zzz: :necktie: :eggplant: 
+                   :oil:     :nose:
+                 :zap: 8=:punch:= D:sweat_drops:
+             :trumpet:      :eggplant:        
+     ''')
+    await asyncio.sleep(0.5)
+    await message.edit(content='''
+                       :ok_hand:            :dizzy_face:
+   :eggplant: :zzz: :necktie: :eggplant: 
+                   :oil:     :nose:
+                 :zap: 8==:punch:D :sweat_drops:
+             :trumpet:      :eggplant:                 :sweat_drops:
+     ''')
+    await asyncio.sleep(0.5)
+    await message.edit(content='''
+                       :ok_hand:            :drooling_face:
+   :eggplant: :zzz: :necktie: :eggplant: 
+                   :oil:     :nose:
+                 :zap: 8==:punch:D :sweat_drops:
+             :trumpet:      :eggplant:                 :sweat_drops:
+     ''')
+
+    
     
 @client.command
 async def hypersquad(ctx, house):
