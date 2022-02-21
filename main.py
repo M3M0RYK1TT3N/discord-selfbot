@@ -11,11 +11,13 @@ import numpy
 import requests
 import random
 
+
 #TOKEN
-TOKEN = ""
+TOKEN = "insert_token_here"
 
 client = discord.Client()
 client = commands.Bot (command_prefix=".", self_bot=True, help_command=None)
+
 
 @client.event
 async def on_ready():
@@ -23,7 +25,7 @@ async def on_ready():
     print("Welcome to nana-bot discord-selfbot")
     print("We are currently under development")
     print("For more information please visit our github!")
-    print("nana-bot selfbot version v2")
+    print("nana-bot selfbot version 2.0")
               
 
 
@@ -71,106 +73,35 @@ async def _1337_speak(ctx, *, text):
     await ctx.send(f'{text}')
 
 
-@client.command(aliases=['tokinfo', 'tdox'])
-async def tokeninfo(ctx, _token):
+
+@client.command(aliases=["copycatuser", "copyuser"])
+async def copycat(ctx, user: discord.User):
     await ctx.message.delete()
-    headers = {
-        'Authorization': _token,
-        'Content-Type': 'application/json'
-    }
-    try:
-        res = requests.get('https://canary.discordapp.com/api/v6/users/@me', headers=headers)
-        res = res.json()
-        user_id = res['id']
-        locale = res['locale']
-        avatar_id = res['avatar']
-        language = languages.get(locale)
-        creation_date = datetime.datetime.utcfromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime(
-            '%d-%m-%Y %H:%M:%S UTC')
-    except KeyError:
-        headers = {
-            'Authorization': "Bot " + _token,
-            'Content-Type': 'application/json'
-        }
+    client.copycat = user
+    await ctx.send("Now copying " + str(client.copycat))
+
+
+
+@client.command(aliases=["stopcopycatuser", "stopcopyuser", "stopcopy"])
+async def stopcopycat(ctx):
+    await ctx.message.delete()
+    if Bot is None:
+        await ctx.send("You weren't copying anyone to begin with")
+        return
+    await ctx.send("Stopped copying " + str(Pornhub.copycat))
+    Pornhub.copycat = None
+
+
+
+@client.command(aliases=["masschannels", "masschannel", "ctc"])
+async def spamchannels(ctx):
+    await ctx.message.delete()
+    for _i in range(250):
         try:
-            res = requests.get('https://canary.discordapp.com/api/v6/users/@me', headers=headers)
-            res = res.json()
-            user_id = res['id']
-            locale = res['locale']
-            avatar_id = res['avatar']
-            language = languages.get(locale)
-            creation_date = datetime.datetime.utcfromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime(
-                '%d-%m-%Y %H:%M:%S UTC')
-            em = discord.Embed(
-                description=f"Name: `{res['username']}#{res['discriminator']} ` **BOT**\nID: `{res['id']}`\nEmail: `{res['email']}`\nCreation Date: `{creation_date}`")
-            fields = [
-                {'name': 'Flags', 'value': res['flags']},
-                {'name': 'Local language', 'value': res['locale'] + f"{language}"},
-                {'name': 'Verified', 'value': res['verified']},
-            ]
-            for field in fields:
-                if field['value']:
-                    em.add_field(name=field['name'], value=field['value'], inline=False)
-                    em.set_thumbnail(url=f"https://cdn.discordapp.com/avatars/{user_id}/{avatar_id}")
-            return await ctx.send(embed=em)
-        except KeyError:
-            await ctx.send("Invalid token")
-    em = discord.Embed(
-        description=f"Name: `{res['username']}#{res['discriminator']}`\nID: `{res['id']}`\nEmail: `{res['email']}`\nCreation Date: `{creation_date}`")
-    nitro_type = "None"
-    if "premium_type" in res:
-        if res['premium_type'] == 2:
-            nitro_type = "Nitro Premium"
-        elif res['premium_type'] == 1:
-            nitro_type = "Nitro Classic"
-    fields = [
-        {'name': 'Phone', 'value': res['phone']},
-        {'name': 'Flags', 'value': res['flags']},
-        {'name': 'Local language', 'value': res['locale'] + f"{language}"},
-        {'name': 'MFA', 'value': res['mfa_enabled']},
-        {'name': 'Verified', 'value': res['verified']},
-        {'name': 'Nitro', 'value': nitro_type},
-    ]
-    for field in fields:
-        if field['value']:
-            em.add_field(name=field['name'], value=field['value'], inline=False)
-            em.set_thumbnail(url=f"https://cdn.discordapp.com/avatars/{user_id}/{avatar_id}")
-    return await ctx.send(embed=em)
+            await ctx.guild.create_text_channel(name="nana_")
+        except:
+            return
 
-@client.command(aliases=["copyguild", "copyserver"])
-async def copy(ctx):  # b'\xfc'
-    await ctx.message.delete()
-    await Exeter.create_guild(f'backup-{ctx.guild.name}')
-    await asyncio.sleep(4)
-    for g in Exeter.guilds:
-        if f'backup-{ctx.guild.name}' in g.name:
-            for c in g.channels:
-                await c.delete()
-            for cate in ctx.guild.categories:
-                x = await g.create_category(f"{cate.name}")
-                for chann in cate.channels:
-                    if isinstance(chann, discord.VoiceChannel):
-                        await x.create_voice_channel(f"{chann}")
-                    if isinstance(chann, discord.TextChannel):
-                        await x.create_text_channel(f"{chann}")
-    try:
-        await g.edit(icon=ctx.guild.icon_url)
-    except:
-        pass
-
-@client.command(aliases=["guildinfo"])
-async def serverinfo(ctx):
-    await ctx.message.delete()
-    date_format = "%a, %d %b %Y %I:%M %p"
-    embed = discord.Embed(title=f"{ctx.guild.name}",
-                          description=f"{len(ctx.guild.members)} Members\n {len(ctx.guild.roles)} Roles\n {len(ctx.guild.text_channels)} Text-Channels\n {len(ctx.guild.voice_channels)} Voice-Channels\n {len(ctx.guild.categories)} Categories",
-                          timestamp=datetime.datetime.utcnow(), color=discord.Color.blue())
-    embed.add_field(name="Server created at", value=f"{ctx.guild.created_at.strftime(date_format)}")
-    embed.add_field(name="Server Owner", value=f"{ctx.guild.owner}")
-    embed.add_field(name="Server Region", value=f"{ctx.guild.region}")
-    embed.add_field(name="Server ID", value=f"{ctx.guild.id}")
-    embed.set_thumbnail(url=f"{ctx.guild.icon_url}")
-    await ctx.send(embed=embed)
 
 
 @client.command(aliases=['rainbowrole'])
@@ -183,6 +114,152 @@ async def rainbow(ctx, *, role):
             await asyncio.sleep(10)
         except:
             break
+
+
+
+
+@client.command()
+async def nickall(ctx, nickname):
+    await ctx.message.delete()
+    for user in list(ctx.guild.members):
+        try:
+            await user.edit(nick=nickname)
+        except:
+            pass
+
+
+@client.command(aliases=["delchannel"])
+async def delchannels(ctx):
+    await ctx.message.delete()
+    for channel in list(ctx.guild.channels):
+        try:
+            await channel.delete()
+        except:
+            return
+
+
+
+
+@client.command()
+async def wizz(ctx):
+    await ctx.message.delete()
+    if isinstance(ctx.message.channel, discord.TextChannel):
+        print("hi")
+        initial = random.randrange(0, 60)
+        message = await ctx.send(f"`Wizzing {ctx.guild.name}, will take {initial} seconds to complete`\n")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.guild.name}, will take {initial} seconds to complete`\n`Deleting {len(ctx.guild.roles)} Roles...\n`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.guild.name}, will take {initial} seconds to complete`\n`Deleting {len(ctx.guild.roles)} Roles...\nDeleting {len(ctx.guild.text_channels)} Text Channels...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.guild.name}, will take {initial} seconds to complete`\n`Deleting {len(ctx.guild.roles)} Roles...\nDeleting {len(ctx.guild.text_channels)} Text Channels...\nDeleting {len(ctx.guild.voice_channels)} Voice Channels...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.guild.name}, will take {initial} seconds to complete`\n`Deleting {len(ctx.guild.roles)} Roles...\nDeleting {len(ctx.guild.text_channels)} Text Channels...\nDeleting {len(ctx.guild.voice_channels)} Voice Channels...\nDeleting {len(ctx.guild.categories)} Categories...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.guild.name}, will take {initial} seconds to complete`\n`Deleting {len(ctx.guild.roles)} Roles...\nDeleting {len(ctx.guild.text_channels)} Text Channels...\nDeleting {len(ctx.guild.voice_channels)} Voice Channels...\nDeleting {len(ctx.guild.categories)} Categories...\nDeleting Webhooks...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.guild.name}, will take {initial} seconds to complete`\n`Deleting {len(ctx.guild.roles)} Roles...\nDeleting {len(ctx.guild.text_channels)} Text Channels...\nDeleting {len(ctx.guild.voice_channels)} Voice Channels...\nDeleting {len(ctx.guild.categories)} Categories...\nDeleting Webhooks...\nDeleting Emojis`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.guild.name}, will take {initial} seconds to complete`\n`Deleting {len(ctx.guild.roles)} Roles...\nDeleting {len(ctx.guild.text_channels)} Text Channels...\nDeleting {len(ctx.guild.voice_channels)} Voice Channels...\nDeleting {len(ctx.guild.categories)} Categories...\nDeleting Webhooks...\nDeleting Emojis\nInitiating Ban Wave...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.guild.name}, will take {initial} seconds to complete`\n`Deleting {len(ctx.guild.roles)} Roles...\nDeleting {len(ctx.guild.text_channels)} Text Channels...\nDeleting {len(ctx.guild.voice_channels)} Voice Channels...\nDeleting {len(ctx.guild.categories)} Categories...\nDeleting Webhooks...\nDeleting Emojis\nInitiating Ban Wave...\nInitiating Mass-DM`")
+    elif isinstance(ctx.message.channel, discord.DMChannel):
+        initial = random.randrange(1, 60)
+        message = await ctx.send(
+            f"`Wizzing {ctx.message.channel.recipient.name}, will take {initial} seconds to complete`\n")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.message.channel.recipient.name}, will take {initial} seconds to complete`\n`Saving {random.randrange(0, 1000)} Messages...\n`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.message.channel.recipient.name}, will take {initial} seconds to complete`\n`Saving {random.randrange(0, 1000)} Messages...\nCaching {random.randrange(0, 1000)} Messages...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.message.channel.recipient.name}, will take {initial} seconds to complete`\n`Saving {random.randrange(0, 1000)} Messages...\nCaching {random.randrange(0, 1000)} Messages...\nDeleting {random.randrange(0, 1000)} Pinned Messages...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.message.channel.recipient.name}, will take {initial} seconds to complete`\n`Saving {random.randrange(0, 1000)} Messages...\nCaching {random.randrange(0, 1000)} Messages...\nDeleting {random.randrange(0, 1000)} Pinned Messages...\n`")
+    elif isinstance(ctx.message.channel, discord.GroupChannel):
+        initial = random.randrange(1, 60)
+        message = await ctx.send(f"`Wizzing {ctx.message.channel.name}, will take {initial} seconds to complete`\n")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.message.channel.name}, will take {initial} seconds to complete`\n`Saving {random.randrange(0, 1000)} Messages...\n`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.message.channel.name}, will take {initial} seconds to complete`\n`Saving {random.randrange(0, 1000)} Messages...\nCaching {random.randrange(0, 1000)} Messages...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.message.channel.name}, will take {initial} seconds to complete`\n`Saving {random.randrange(0, 1000)} Messages...\nCaching {random.randrange(0, 1000)} Messages...\nDeleting {random.randrange(0, 1000)} Pinned Messages...`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.message.channel.name}, will take {initial} seconds to complete`\n`Saving {random.randrange(0, 1000)} Messages...\nCaching {random.randrange(0, 1000)} Messages...\nDeleting {random.randrange(0, 1000)} Pinned Messages...\n`")
+        await asyncio.sleep(1)
+        await message.edit(
+            content=f"`Wizzing {ctx.message.channel.name}, will take {initial} seconds to complete`\n`Saving {random.randrange(0, 1000)} Messages...\nCaching {random.randrange(0, 1000)} Messages...\nDeleting {random.randrange(0, 1000)} Pinned Messages...\nKicking {len(ctx.message.channel.recipients)} Users...`")
+
+
+
+@client.command(aliases=["del", "quickdel"])
+async def quickdelete(ctx, *, args):
+    await ctx.message.delete()
+    await ctx.send(args, delete_after=1)
+
+
+@client.command()
+async def minesweeper(ctx, size: int = 5):
+    await ctx.message.delete()
+    size = max(min(size, 8), 2)
+    bombs = [[random.randint(0, size - 1), random.randint(0, size - 1)] for x in range(int(size - 1))]
+    is_on_board = lambda x, y: 0 <= x < size and 0 <= y < size
+    has_bomb = lambda x, y: [i for i in bombs if i[0] == x and i[1] == y]
+    message = "**Click to play**:\n"
+    for y in range(size):
+        for x in range(size):
+            tile = "||{}||".format(chr(11036))
+            if has_bomb(x, y):
+                tile = "||{}||".format(chr(128163))
+            else:
+                count = 0
+                for xmod, ymod in m_offets:
+                    if is_on_board(x + xmod, y + ymod) and has_bomb(x + xmod, y + ymod):
+                        count += 1
+                if count != 0:
+                    tile = "||{}||".format(m_numbers[count - 1])
+            message += tile
+        message += "\n"
+    await ctx.send(message)
+
+
+@client.command(pass_context=True, aliases=["cyclename", "autoname", "autonick", "cycle"])
+async def cyclenick(ctx, *, text):
+    await ctx.message.delete()
+    global cycling
+    cycling = True
+    while cycling:
+        name = ""
+        for letter in text:
+            name = name + letter
+            await ctx.message.author.edit(nick=name)
+
+
+
+@client.command(aliases=["stopcyclename", "cyclestop", "stopautoname", "stopautonick", "stopcycle"])
+async def stopcyclenick(ctx):
+    await ctx.message.delete()
+    global cycling
+    cycling = False
+
+
+
 
 @client.command()
 async def hack(ctx, user: discord.Member = None):
